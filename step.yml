@@ -55,3 +55,9 @@ inputs:
       summary: "The file name to set for the file to be uploaded "
       description: ""
       is_required: true
+  - ENABLE_DEBUG:
+    opts:
+      title: Switch on debug logs
+      summary: "Switch on debug logging to help issue analysis"
+      description: ""
+      is_required: true

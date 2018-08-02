@@ -1,11 +1,12 @@
 package main
 
 import (
+	"golang.org/x/net/context"
 	"io"
 	"net/http"
 	"os"
 	"path/filepath"
-	"golang.org/x/net/context"
+	"strconv"
 
 	"cloud.google.com/go/storage"
 
@@ -15,10 +16,9 @@ import (
 	"github.com/bitrise-io/go-utils/pathutil"
 )
 
-
 type bucketConfig struct {
 	keyPath string
-	name string
+	name    string
 }
 
 type artefact struct {
@@ -28,12 +28,20 @@ type artefact struct {
 }
 
 func main() {
+	enableDebug, err := strconv.ParseBool(os.Getenv("ENABLE_DEBUG"))
+	if err != nil {
+		log.Warnf("Failed to extract enable_debug value (%s), error: %s", enableDebug, err)
+		enableDebug = false
+	}
+
+	log.SetEnableDebugLog(enableDebug)
+
 	bucketConfig := bucketConfig{
 		os.Getenv("GCS_SERVICE_ACCOUNT_JSON_KEY_URL"),
 		os.Getenv("BUCKET_NAME"),
 	}
 
-	artefact := artefact {
+	artefact := artefact{
 		os.Getenv("BUCKET_FOLDER_NAME"),
 		os.Getenv("ARTEFACT_PATH"),
 		os.Getenv("UPLOAD_FILE_NAME"),
@@ -44,7 +52,6 @@ func main() {
 	log.Debugf("folderName => %s", artefact.folderName)
 	log.Debugf("filePath => %s", artefact.filePath)
 	log.Debugf("uploadFileName => %s", artefact.uploadFileName)
-
 
 	localKeyPath := downloadKeyFile(bucketConfig.keyPath)
 	log.Debugf("local localKeyPath => %s", localKeyPath)
@@ -98,7 +105,7 @@ func createClient(context context.Context, keyPath string) *storage.Client {
 		failf("Failed to create new storage client, error: %s", err)
 	}
 
-	return client;
+	return client
 }
 
 func closeClient(client *storage.Client) {
@@ -111,7 +118,7 @@ func uploadFile(context context.Context, client *storage.Client, artefact artefa
 	file, err := os.Open(artefact.filePath)
 
 	if err != nil {
-		failf("File (%s) does not exist, error: %s", artefact.filePath, err)
+		failf("Artefact path (%s) does not exist, error: %s", artefact.filePath, err)
 	}
 
 	defer file.Close()
