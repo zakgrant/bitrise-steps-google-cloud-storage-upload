@@ -1,0 +1,63 @@
+title: Upload to Google Cloud Storage
+summary: Upload build artifacts to Google Cloud Storage
+description: |-
+  Bitrise Step to ship build artifacts to Google Cloud Storage
+website: https://github.com/zakgrant/bitrise-steps-google-cloud-storage-upload
+source_code_url: https://github.com/zakgrant/bitrise-steps-google-cloud-storage-upload
+support_url: https://github.com/zakgrant/bitrise-steps-google-cloud-storage-upload/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu
+project_type_tags:
+  - ios
+  - android
+type_tags:
+  - deploy
+  - GCS
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+deps:
+  brew:
+  - name: go
+  apt_get:
+  - name: golang
+    bin_name: go
+run_if: ""
+inputs:
+  - gcs_service_account_json_key_url: "BITRISE_GCS_SERVICE_ACCOUNT_JSON_KEY_URL"
+    opts:
+      title: Service Account JSON key file path
+      summary: "Path of the JSON key file to upload"
+      description: ""
+      is_required: true
+  - project_id:
+    opts:
+      title: Google Cloud Platform Project Id
+      summary: ""
+      description: ""
+      is_required: true
+  - bucket_name:
+    opts:
+      title: GCS Bucket Name
+      summary: ""
+      description: ""
+      is_required: true
+  - folder_name:
+    opts:
+      title: GCS Folder Name
+      summary: ""
+      description: ""
+      is_required: false
+  - upload_file_path:
+    opts:
+      title: File Path to upload
+      summary: ""
+      description: ""
+      is_required: true
+  - uploaded_file_name:
+    opts:
+      title: File name after upload
+      summary: ""
+      description: ""
+      is_required: true
