@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-		"golang.org/x/net/context"
+	"golang.org/x/net/context"
 
 	"cloud.google.com/go/storage"
 
@@ -22,9 +22,9 @@ type bucketConfig struct {
 }
 
 type artefact struct {
-	folderName string
-	uploadFilePath string
-	uploadedFileName string
+	folderName     string
+	filePath       string
+	uploadFileName string
 }
 
 func main() {
@@ -34,16 +34,16 @@ func main() {
 	}
 
 	artefact := artefact {
-		os.Getenv("FOLDER_NAME"),
-		os.Getenv("UPLOAD_FILE_PATH"),
-		os.Getenv("UPLOADED_FILE_NAME"),
+		os.Getenv("BUCKET_FOLDER_NAME"),
+		os.Getenv("ARTEFACT_PATH"),
+		os.Getenv("UPLOAD_FILE_NAME"),
 	}
 
 	log.Debugf("KeyPath => %s", bucketConfig.keyPath)
 	log.Debugf("bucketName => %s", bucketConfig.name)
 	log.Debugf("folderName => %s", artefact.folderName)
-	log.Debugf("uploadFilePath => %s", artefact.uploadFilePath)
-	log.Debugf("uploadedFileName => %s", artefact.uploadedFileName)
+	log.Debugf("filePath => %s", artefact.filePath)
+	log.Debugf("uploadFileName => %s", artefact.uploadFileName)
 
 
 	localKeyPath := downloadKeyFile(bucketConfig.keyPath)
@@ -108,15 +108,15 @@ func closeClient(client *storage.Client) {
 }
 
 func uploadFile(context context.Context, client *storage.Client, artefact artefact, bucketConfig bucketConfig) {
-	file, err := os.Open(artefact.uploadFilePath)
+	file, err := os.Open(artefact.filePath)
 
 	if err != nil {
-		failf("File (%s) does not exist, error: %s", artefact.uploadFilePath, err)
+		failf("File (%s) does not exist, error: %s", artefact.filePath, err)
 	}
 
 	defer file.Close()
 
-	uploadPath := filePath(artefact.folderName, artefact.uploadedFileName)
+	uploadPath := filePath(artefact.folderName, artefact.uploadFileName)
 	bkt := client.Bucket(bucketConfig.name)
 	writer := bkt.Object(uploadPath).NewWriter(context)
 
