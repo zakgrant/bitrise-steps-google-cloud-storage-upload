@@ -25,7 +25,7 @@ deps:
     bin_name: go
 run_if: ""
 inputs:
-  - gcs_service_account_json_key_url: "BITRISE_GCS_SERVICE_ACCOUNT_JSON_KEY_URL"
+  - gcs_service_account_json_key_url: "GCS_SERVICE_ACCOUNT_JSON_KEY_URL"
     opts:
       title: Service Account JSON key file path
       summary: "Path of the JSON key file to upload"

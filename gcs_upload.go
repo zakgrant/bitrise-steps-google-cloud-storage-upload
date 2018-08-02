@@ -15,39 +15,6 @@ import (
 	"github.com/bitrise-io/go-utils/pathutil"
 )
 
-func failf(format string, v ...interface{}) {
-	log.Errorf(format, v...)
-	os.Exit(1)
-}
-
-func downloadFile(downloadURL, targetPath string) error {
-	outFile, err := os.Create(targetPath)
-	if err != nil {
-		failf("Failed to create (%s), error: %s", targetPath, err)
-	}
-	defer func() {
-		if err = outFile.Close(); err != nil {
-			log.Warnf("Failed to close (%s), error: %s", targetPath, err)
-		}
-	}()
-
-	resp, err := http.Get(downloadURL)
-	if err != nil {
-		failf("Failed to download from (%s), error: %s", downloadURL, err)
-	}
-	defer func() {
-		if err = resp.Body.Close(); err != nil {
-			log.Warnf("Failed to close (%s) body", downloadURL)
-		}
-	}()
-
-	_, err = io.Copy(outFile, resp.Body)
-	if err != nil {
-		failf("Failed to download from (%s), error: %s", downloadURL, err)
-	}
-
-	return nil
-}
 
 type bucketConfig struct {
 	keyPath string
@@ -90,6 +57,39 @@ func main() {
 	closeClient(client)
 }
 
+func failf(format string, v ...interface{}) {
+	log.Errorf(format, v...)
+	os.Exit(1)
+}
+
+func downloadFile(downloadURL, targetPath string) error {
+	outFile, err := os.Create(targetPath)
+	if err != nil {
+		failf("Failed to create (%s), error: %s", targetPath, err)
+	}
+	defer func() {
+		if err = outFile.Close(); err != nil {
+			log.Warnf("Failed to close (%s), error: %s", targetPath, err)
+		}
+	}()
+
+	resp, err := http.Get(downloadURL)
+	if err != nil {
+		failf("Failed to download from (%s), error: %s", downloadURL, err)
+	}
+	defer func() {
+		if err = resp.Body.Close(); err != nil {
+			log.Warnf("Failed to close (%s) body", downloadURL)
+		}
+	}()
+
+	_, err = io.Copy(outFile, resp.Body)
+	if err != nil {
+		failf("Failed to download from (%s), error: %s", downloadURL, err)
+	}
+
+	return nil
+}
 
 func createClient(context context.Context, keyPath string) *storage.Client {
 	client, err := storage.NewClient(context, option.WithCredentialsFile(keyPath))

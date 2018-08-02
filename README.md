@@ -11,7 +11,7 @@ Don't have a service account yet then create one -> [instructions](https://cloud
 
 JSON Credentials file will need uploaded to Bitrise -> `Workflow -> Code Signing -> Generic File Storage`
 
-**WARNING** Bitrise GCS Upload Step uses `BITRISE_GCS_SERVICE_ACCOUNT_JSON_KEY_URL` as default key. 
+**WARNING** Bitrise GCS Upload Step uses `GCS_SERVICE_ACCOUNT_JSON_KEY_URL` as default key. 
 If you choose to use a different name, you will have to update it in step inputs.
  
 #### Update `bitrise.yml`
