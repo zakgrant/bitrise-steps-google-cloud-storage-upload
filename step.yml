@@ -37,7 +37,7 @@ inputs:
       summary: "Name of the bucket to upload to"
       description: ""
       is_required: true
-  - FOLDER_NAME: "$GCS_BUCKET_FOLDER_NAME"
+  - BUCKET_FOLDER_NAME: "$GCS_BUCKET_FOLDER_NAME"
     opts:
       title: GCS Folder Name
       summary: "The folder path to use within the bucket"
@@ -49,7 +49,7 @@ inputs:
       summary: "The location of the bitrise build artefact"
       description: ""
       is_required: true
-  - UPLOADED_FILE_NAME: "$GCS_STORAGE_UPLOAD_FILE_NAME"
+  - UPLOAD_FILE_NAME: "$GCS_UPLOAD_FILE_NAME"
     opts:
       title: File name after upload
       summary: "The file name to set for the file to be uploaded "

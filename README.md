@@ -18,7 +18,7 @@ If you choose to use a different name, you will have to update it in step inputs
 Add following step into your `bitrise.yml`
 
 ```yaml
-- git::https://github.com/zakgrant/bitrise-steps-google-cloud-storage-upload.git:
+- git::https://github.com/zakgrant/bitrise-steps-google-cloud-storage-upload.git@1.0.2:
     title: Upload artefact to Google Cloud Storage
     inputs:
     - GCS_SERVICE_ACCOUNT_JSON_KEY_URL: $BITRISEIO_GCS_SERVICE_ACCOUNT_JSON_KEY_URL

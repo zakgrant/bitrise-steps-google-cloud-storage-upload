@@ -47,14 +47,20 @@ func main() {
 		os.Getenv("UPLOAD_FILE_NAME"),
 	}
 
+	log.Debugf("-----------------------------------------------")
+	log.Debugf("------------------Step Inputs------------------")
+	log.Debugf("-----------------------------------------------")
 	log.Debugf("KeyPath => %s", bucketConfig.keyPath)
 	log.Debugf("bucketName => %s", bucketConfig.name)
 	log.Debugf("folderName => %s", artefact.folderName)
 	log.Debugf("filePath => %s", artefact.filePath)
 	log.Debugf("uploadFileName => %s", artefact.uploadFileName)
+	log.Debugf("-----------------------------------------------")
+	log.Debugf("---------------------END-----------------------")
+	log.Debugf("-----------------------------------------------")
 
 	localKeyPath := downloadKeyFile(bucketConfig.keyPath)
-	log.Debugf("local localKeyPath => %s", localKeyPath)
+	log.Debugf("localKeyPath => %s", localKeyPath)
 	setGoogleCredentials(localKeyPath)
 
 	context := context.Background()
